@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz - ThinkQ</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background: #121212;
+            color: #fff;
+            font-family: Poppins, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #2c2c2c;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .question-box {
+            font-size: 1.3rem;
+            background: #2c2c2c;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #383838;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            padding: 14px;
+            background: #1f1f1f;
+            border: 1px solid #333;
+            border-radius: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .option:hover { background: #292929; }
+        .selected { background: #8E44AD !important; border-color: #c0392b !important; }
+        .correct { background: green !important; }
+        .wrong { background: red !important; }
+
+        #next-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #8E44AD, #c0392b);
+            color: white;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .progress {
+            background: #2c2c2c;
+            height: 10px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            width: 0%;
+            background: linear-gradient(90deg, #8E44AD, #c0392b);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>ThinkQ Quiz</h2>
+
+    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+    <div class="question-box" id="question"></div>
+    <div id="options"></div>
+
+    <button id="next-btn">Next Question</button>
+</div>
+
+<script>
+/* ---------------- Load Quiz ---------------- */
+let raw = localStorage.getItem("quizData");
+let data = raw ? JSON.parse(raw) : null;
+
+if (!data || !data.questions) {
+    alert("No quiz data found!");
+    window.location.href = "quiz1.html";
+}
+
+let quiz = data.questions;
+let index = 0;
+let score = 0;
+let selected = false;
+
+/* STORE ANSWERS HERE */
+let answers = [];
+
+/* ---------------- XP Update ---------------- */
+async function updateXP(difficulty, score) {
+    const token = localStorage.getItem("token");
+
+    const f = new FormData();
+    f.append("difficulty", difficulty);
+    f.append("score", score);
+
+    await fetch("http://127.0.0.1:8000/update_xp", {
+        method: "POST",
+        headers: { "Authorization": "Bearer " + token },
+        body: f
+    });
+}
+
+/* ---------------- Load Question ---------------- */
+function loadQuestion() {
+    selected = false;
+    const q = quiz[index];
+
+    document.getElementById("question").textContent = `Q${index+1}: ${q.question}`;
+
+    let optBox = document.getElementById("options");
+    optBox.innerHTML = "";
+
+    q.options.forEach(opt => {
+        let div = document.createElement("div");
+        div.className = "option";
+        div.textContent = opt;
+
+        div.onclick = () => {
+            if (selected) return;
+            selected = true;
+
+            // Use trim() for a more robust comparison
+            const isCorrect = (opt.trim() === q.correct_answer.trim());
+
+            // Save the user's answer
+            answers.push({
+                question: q.question,
+                selected: opt.trim(),
+                correct: q.correct_answer
+            });
+
+            if (isCorrect) {
+                // Correct answer selected
+                div.classList.add("correct");
+                score++;
+            } else {
+                // Incorrect answer selected, mark it red
+                div.classList.add("wrong");
+
+                // Now, find and highlight the correct answer in green
+                document.querySelectorAll(".option").forEach(optionDiv => {
+                    // This check ensures we only mark the *actual* correct answer
+                    if (optionDiv.textContent.trim() === q.correct_answer.trim()) {
+                        optionDiv.classList.add("correct");
+                    }
+                });
+            }
+        };
+
+        optBox.appendChild(div);
+    });
+
+    document.getElementById("progressBar").style.width =
+        (index / quiz.length) * 100 + "%";
+}
+
+/* ---------------- Next Button ---------------- */
+document.getElementById("next-btn").onclick = async () => {
+    if (!selected) {
+        alert("Please select an answer before proceeding.");
+        return;
+    }
+
+    index++;
+
+    if (index >= quiz.length ) {
+        let difficulty = localStorage.getItem("quiz_difficulty");
+
+        await updateXP(difficulty, score);
+
+        // SAVE RESULT
+        localStorage.setItem("quizResult", JSON.stringify({
+            score: score,
+            total: quiz.length,
+            answers: answers
+        }));
+
+        return window.location.href = "result.html";
+    }
+
+    loadQuestion();
+};
+
+loadQuestion();
+</script>
+
+</body>
+</html>

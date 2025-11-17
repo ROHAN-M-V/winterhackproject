@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThinkQ Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #121212;
+            color: #f0f0f0;
+            padding: 20px;
+        }
+        .aurora-container {
+         width: 100%;
+         height: 100%;
+          }
+
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand {
+            font-size: 50px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin-left:40px;
+        }
+        .nav-links li {
+            margin: 0 20px;
+        }
+
+        .nav-links a {
+           font-weight: 500;
+            color: #aaa;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a.active,
+        .nav-links a:hover { color: #fff; }
+
+        .logout-btn {
+           background-color: transparent;
+            border: 1px solid #c0392b;
+            color: #c0392b;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+            color: white;
+        }
+
+        .main-content { padding: 0 5%; }
+
+        .welcome-header h1 {
+            font-size: 2.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .stats-container {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .stat-card {
+            background: #1a1a1a;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #222;
+        }
+
+        .icon {
+            font-size: 1.5rem;
+            padding: 12px;
+            border-radius: 8px;
+            width: fit-content;
+        }
+
+        .accuracy .icon { color: #2ECC71; background: rgba(46,204,113,0.1); }
+        .xp .icon { color: #8E44AD; background: rgba(142,68,173,0.2); }
+        .quizzes .icon { color: #3498DB; background: rgba(52,152,219,0.2); }
+        .streak .icon { color: #E67E22; background: rgba(230,126,34,0.2); }
+
+        .stat-title { color: #aaa; font-size: 1rem; }
+        .stat-value { font-size: 2rem; font-weight: 700; }
+
+        .start-quiz-btn {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: linear-gradient(90deg, #8E44AD, #c0392b);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="brand">ThinkQ</span>
+            <ul class="nav-links">
+                <li><a href="#" class="active">Dashboard</a></li>
+                <li><a href="quiz1.html">Quiz</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+            </ul>
+        </div>
+        <a href="#" onclick="logout()" class="logout-btn">Logout</a>
+    </nav>
+
+    <main class="main-content">
+        <header class="welcome-header">
+            <h1 id="welcomeUser">Welcome back 👋</h1>
+        </header>
+
+        <section class="stats-container">
+            <div class="stat-card xp">
+                <div class="icon"><i class="fas fa-star"></i></div>
+                <span class="stat-title">XP</span>
+                <span class="stat-value" id="xpValue">0</span>
+            </div>
+
+            <div class="stat-card quizzes">
+                <div class="icon"><i class="fas fa-file-alt"></i></div>
+                <span class="stat-title">Quizzes Taken</span>
+                <span class="stat-value" id="quizCount">0</span>
+            </div>
+
+            <div class="stat-card accuracy">
+                <div class="icon"><i class="fas fa-bullseye"></i></div>
+                <span class="stat-title">Accuracy</span>
+                <span class="stat-value" id="accuracyValue">0%</span>
+            </div>
+
+            <div class="stat-card streak">
+                <div class="icon"><i class="fas fa-fire"></i></div>
+                <span class="stat-title">Current Streak</span>
+                <span class="stat-value" id="streakValue">0 days</span>
+            </div>
+        </section>
+
+        <a href="quiz1.html" class="start-quiz-btn"><i class="fas fa-play"></i> Start Quiz</a>
+    </main>
+
+<script src="dashboard.js"></script>
+<script>
+    // Separate logout logic for clarity and good practice
+    function logout() {
+        localStorage.removeItem("token");
+        window.location.href = "login.html";
+    }
+</script>
+
+</body>
+</html>

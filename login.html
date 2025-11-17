@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ThinkQ</title>
+    
+    <!-- Google Font: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- Global Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #121212;
+            color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* --- Login Card --- */
+        .login-card {
+            background-color: #1a1a1a;
+            border-radius: 12px;
+            padding: 40px 35px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid #222;
+        }
+
+        /* --- Header --- */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #8E44AD;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #aaa;
+            margin-top: 5px;
+        }
+
+        /* --- Form Toggle --- */
+        .form-toggle {
+            display: flex;
+            background-color: #2c2c2c;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            border: 1px solid #444;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background-color: transparent;
+            color: #aaa;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn.active {
+            background-color: #8E44AD;
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(142, 68, 173, 0.5);
+        }
+
+        /* --- Form --- */
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            background-color: #2c2c2c;
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: #f0f0f0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #8E44AD;
+            box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.2);
+        }
+
+        #username-group {
+            display: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #8E44AD, #c0392b);
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 10px;
+       }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(142, 68, 173, 0.3);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .forgot-password {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">ThinkQ</div>
+            <div class="subtitle">AI Powered Quiz App</div>
+        </div>
+
+        <!-- Toggle -->
+        <div class="form-toggle">
+            <button class="toggle-btn active" id="toggle-signin">Sign In</button>
+            <button class="toggle-btn" id="toggle-signup">Sign Up</button>
+        </div>
+
+        <form id="auth-form">
+            <div class="input-group" id="username-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="username" class="input-field" placeholder="Username">
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" class="input-field" placeholder="Email" required>
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" class="input-field" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submit-btn">Sign In</button>
+        </form>
+
+        <div class="form-footer">
+            <a href="#" class="forgot-password">Forgot Password?</a>
+        </div>
+    </div>
+
+<script>
+const toggleSignIn = document.getElementById('toggle-signin');
+const toggleSignUp = document.getElementById('toggle-signup');
+const usernameGroup = document.getElementById('username-group');
+const submitBtn = document.getElementById('submit-btn');
+const authForm = document.getElementById('auth-form');
+
+// Toggle Sign In
+toggleSignIn.addEventListener('click', () => {
+    toggleSignIn.classList.add('active');
+    toggleSignUp.classList.remove('active');
+    usernameGroup.style.display = 'none';
+    submitBtn.textContent = 'Sign In';
+});
+
+// Toggle Sign Up
+toggleSignUp.addEventListener('click', () => {
+    toggleSignUp.classList.add('active');
+    toggleSignIn.classList.remove('active');
+    usernameGroup.style.display = 'block';
+    submitBtn.textContent = 'Create Account';
+});
+
+// Handle form submit
+authForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const isLogin = toggleSignIn.classList.contains('active');
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value;
+
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+
+    if (!isLogin) formData.append("username", username);
+
+    if (!isLogin) {
+        // SIGNUP
+        const res = await fetch("http://127.0.0.1:8000/signup", { method: "POST", body: formData });
+        const data = await res.json();
+        if (data.status === "success") {
+            alert("Account created! Login now.");
+            toggleSignIn.click();
+        } else {
+            alert(data.msg);
+        }
+    } else {
+        // LOGIN
+        const res = await fetch("http://127.0.0.1:8000/login", { method: "POST", body: formData });
+        const data = await res.json();
+
+        if (data.status === "success") {
+            localStorage.setItem("token", data.token);
+            window.location.href = "dashboard.html";
+        } else {
+            alert(data.msg);
+        }
+    }
+});
+</script>
+
+</body>
+</html>

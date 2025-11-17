@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quiz Results - ThinkQ</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #121212;
+        color: #fff;
+        padding: 30px;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: auto;
+        background: #1a1a1a;
+        padding: 35px;
+        border-radius: 12px;
+        border: 1px solid #2b2b2b;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 2rem;
+    }
+
+    .score-box {
+        background: #2c2c2c;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: 1.3rem;
+    }
+
+    .answer-card {
+        background: #1f1f1f;
+        padding: 20px;
+        margin: 15px 0;
+        border-radius: 8px;
+        border-left: 6px solid #444;
+    }
+
+    .correct {
+        border-left-color: #2ecc71;
+    }
+
+    .wrong {
+        border-left-color: #e74c3c;
+    }
+
+    .btn {
+        display: block;
+        margin-top: 25px;
+        padding: 15px;
+        text-align: center;
+        background: linear-gradient(90deg, #8E44AD, #c0392b);
+        color: #fff;
+        font-size: 1.1rem;
+        border-radius: 8px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="container">
+    <h1>Your Quiz Result</h1>
+
+    <div id="scoreBox" class="score-box"></div>
+
+    <h2>Answer Review</h2>
+    <div id="review"></div>
+
+    <a class="btn" href="dashboard.html">Back to Dashboard</a>
+</div>
+
+<script>
+// Load quiz result saved from quiz page
+let result = JSON.parse(localStorage.getItem("quizResult"));
+
+if (!result) {
+    window.location.href = "dashboard.html";
+}
+
+// Score box
+document.getElementById("scoreBox").innerHTML =
+    `Score: <strong>${result.score}/${result.total}</strong>`;
+
+// Review card container
+let reviewBox = document.getElementById("review");
+
+// Loop through answers
+result.answers.forEach((a, i) => {
+    // Trim strings to avoid whitespace issues during comparison
+    let correct = a.selected.trim() === a.correct.trim();
+
+    let div = document.createElement("div");
+    div.className = "answer-card " + (correct ? "correct" : "wrong");
+
+    div.innerHTML = `
+        <h3>Q${i+1}. ${a.question}</h3>
+        <p><strong>Your Answer:</strong> ${a.selected}</p>
+        <p><strong>Correct Answer:</strong> ${a.correct}</p>
+    `;
+
+    reviewBox.appendChild(div);
+});
+</script>
+
+</body>
+</html>

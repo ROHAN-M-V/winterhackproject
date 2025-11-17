@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Quiz - ThinkQ</title>
+    
+    <!-- Google Font: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- Global Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #121212; /* Dark background */
+            color: #f0f0f0; /* Light text */
+            padding: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- Navigation Bar --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #8E44AD; /* Purple color */
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin-left: 40px;
+        }
+
+        .nav-links li {
+            margin: 0 20px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: #aaa;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #ffffff;
+        }
+
+        .logout-btn {
+            background-color: transparent;
+            border: 1px solid #c0392b;
+            color: #c0392b;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #c0392b;
+            color: #ffffff;
+        }
+
+        /* --- Main Content --- */
+        .main-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 5%;
+        }
+
+        /* --- Quiz Setup Card --- */
+        .quiz-setup-card {
+            background-color: #1a1a1a;
+            border-radius: 12px;
+            padding: 40px 35px;
+            width: 100%;
+            max-width: 600px; /* Increased from 550px */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid #222;
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .card-header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        /* --- Form Styling --- */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #aaa;
+            margin-bottom: 8px;
+        }
+        
+        .form-group label i {
+            margin-right: 8px;
+            width: 20px; /* Align icons */
+            text-align: center;
+        }
+
+        .form-select,
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            background-color: #2c2c2c;
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: #f0f0f0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        /* Specific for select arrow */
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23aaa'%3E%3Cpath d='M8 11.207l-4.146-4.147a.5.5 0 0 1 .708-.708L8 9.793l3.438-3.438a.5.5 0 0 1 .707.708L8 11.207z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 16px;
+        }
+
+        .form-select:focus,
+        .form-input:focus {
+            outline: none;
+            border-color: #8E44AD;
+            box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.2);
+        }
+        
+        .form-select:disabled {
+            background-color: #222;
+            color: #777;
+            cursor: not-allowed;
+        }
+.brand {
+  font-size: 50px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #a855f7, #ec4899);
+  background-clip: text;
+  -webkit-background-clip: text; 
+  -webkit-text-fill-color: transparent;
+}
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- Start Quiz Button --- */
+        .start-quiz-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #8E44AD, #c0392b);
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .start-quiz-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(142, 68, 173, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- ======== Navigation Bar ======== -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="brand">ThinkQ</span>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="#" class="active">Quiz</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+            </ul>
+        </div>
+        <a href="login.html" onclick="logout()" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </nav>
+
+    <!-- ======== Main Quiz Setup Content ======== -->
+    <main class="main-content">
+
+        <div class="quiz-setup-card">
+            <div class="card-header">
+                <h1>Customize Your Quiz</h1>
+            </div>
+
+            <form id="quiz-form">
+                <!-- Subject -->
+                <div class="form-group">
+                    <label for="subject"><i class="fas fa-book"></i>Subject</label>
+                    <select id="subject" class="form-select" required>
+                        <option value="" disabled selected>Select a subject...</option>
+                        <option value="physics">Physics</option>
+                        <option value="chemistry">Chemistry</option>
+                        <option value="maths">Maths</option>
+                        <option value="biology">Biology</option>
+                    </select>
+                </div>
+
+                <!-- Topics -->
+                <div class="form-group">
+                    <label for="topic"><i class="fas fa-tags"></i>Topic</label>
+                    <select id="topic" class="form-select" required disabled>
+                        <option value="">Select a topic...</option>
+                        <!-- Topics will be populated by JS -->
+                    </select>
+                </div>
+
+                <!-- Difficulty -->
+                <div class="form-group">
+                    <label for="difficulty"><i class="fas fa-signal"></i>Difficulty</label>
+                    <select id="difficulty" class="form-select" required>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+
+                <!-- Number of Questions -->
+                <div class="form-group">
+                    <label for="num-questions"><i class="fas fa-hashtag"></i>Number of Questions</label>
+                    <input type="number" id="num-questions" class="form-input" value="10" min="5" max="20" required>
+                </div>
+
+                <!-- Start Button -->
+                <button type="submit" class="start-quiz-btn">
+                    <i class="fas fa-play"></i> Start Quiz
+                </button>
+            </form>
+        </div>
+
+    </main>
+
+    <script>
+        // Sample data for topics
+        const quizTopics = {
+            physics: ['Mechanics', 'Thermodynamics', 'Electromagnetism', 'Optics'],
+            chemistry: ['Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry', 'Biochemistry'],
+            maths: ['Algebra', 'Geometry', 'Calculus', 'Statistics'],
+            biology: ['Cell Biology', 'Genetics', 'Ecology', 'Human Anatomy']
+        };
+
+        // Get DOM elements
+        const subjectSelect = document.getElementById('subject');
+        const topicSelect = document.getElementById('topic');
+        const quizForm = document.getElementById('quiz-form');
+        const difficulty = document.getElementById("difficulty");
+
+
+        // Event listener for subject change
+        subjectSelect.addEventListener('change', (e) => {
+            const selectedSubject = e.target.value;
+            
+            // Clear previous topics
+            topicSelect.innerHTML = '<option value="">Select a topic...</option>';
+
+            if (selectedSubject) {
+                // Enable topic select
+                topicSelect.disabled = false;
+                
+                // Populate topics
+                const topics = quizTopics[selectedSubject];
+                topics.forEach(topic => {
+                    const option = document.createElement('option');
+                    option.value = topic.toLowerCase().replace(' ', '-');
+                    option.textContent = topic;
+                    topicSelect.appendChild(option);
+                });
+            } else {
+                // Disable topic select if no subject is chosen
+                topicSelect.disabled = true;
+            }
+        });
+
+        // Event listener for form submission
+        
+        // Logout function
+        function logout() {
+            localStorage.removeItem("token");
+            // No need for e.preventDefault() as we are navigating away
+            window.location.href = "login.html";
+        }
+
+
+    </script>
+    <script>
+    quizForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+        alert("Please login first.");
+        window.location.href = "login.html";
+        return;
+    }
+   
+
+    const formData = new FormData();
+    formData.append("topic", topicSelect.value);
+    formData.append("difficulty", difficulty.value);
+    formData.append("num_questions", document.getElementById("num-questions").value);
+
+    const res = await fetch("http://127.0.0.1:8000/generate_quiz", {
+        method: "POST",
+        headers: {
+            "Authorization": "Bearer " + token
+        },
+        body: formData
+    });
+
+    const data = await res.json();
+
+    let quizJSON = data.quiz;
+    console.log("Generated Quiz:", quizJSON);
+
+    // Store quiz in localStorage or pass to a new page
+    localStorage.setItem("quizData", JSON.stringify(quizJSON));
+    localStorage.setItem("quiz_difficulty", difficulty.value); // <-- FIX: Store difficulty
+
+    window.location.href = "quiz-start.html"; // page where quiz is attempted
+});
+</script>
+
+
+</body>
+</html>
