@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+pymongo
+passlib[bcrypt]
+python-jwt   # or “pyjwt”
