@@ -26,13 +26,13 @@ app.add_middleware(
 # ---------------------
 # CONFIG
 # ---------------------
-client = AsyncIOMotorClient("mongodb+srv://Winter:scarjo%4055435@cluster0.uppfsqy.mongodb.net/?appName=Cluster0")
+client = AsyncIOMotorClient("")
 db = client["quiz_app"]
 users_col = db["users"]
 
 pwd = CryptContext(schemes=["bcrypt"], deprecated="auto")
 security = HTTPBearer()
-SECRET_KEY = "j23nfd92nf923nf92309f23nf923nf9230f"
+SECRET_KEY = ""
 
 # Gemini API
 GEMINI_KEY = os.getenv("GEMINI_KEY")
@@ -231,3 +231,4 @@ async def get_profile(user=Depends(verify_token)):
     user_data.setdefault("streak", 0)
 
     return {"status": "success", "user": user_data}
+
